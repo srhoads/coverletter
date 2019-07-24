@@ -1,0 +1,111 @@
+% !TeX program = XeLaTeX
+\documentclass[]{formatting}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{adjustbox}
+\usepackage{arydshln}
+\usepackage{array, multirow, graphicx}
+\usepackage{makecell}
+\usepackage{enumitem}
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\renewcommand{\dbltopfraction}{.66}
+\renewcommand{\dblfloatpagefraction}{.66}
+\setcounter{topnumber}{9}
+\setcounter{bottomnumber}{9}
+\setcounter{totalnumber}{20}
+\setcounter{dbltopnumber}{9}
+
+\usepackage[referable]{threeparttablex}
+\renewlist{tablenotes}{enumerate}{1}
+\makeatletter
+\setlist[tablenotes]{label=\tnote{\alph*},ref=\alph*,itemsep=\z@,topsep=\z@skip,partopsep=\z@skip,parsep=\z@,itemindent=\z@,labelindent=\tabcolsep,labelsep=.1em,leftmargin=*,align=left,before={\tiny}}
+\makeatother
+
+\usepackage[printwatermark]{xwatermark}
+\usepackage{tikz}
+\captionsetup{aboveskip=2pt}
+
+\sethyphenation[variant=british]{english}{}
+\definecolor{MyRed}{rgb}{0.8901961 0.2901961 0.2000000}
+\definecolor{mygray}{rgb}{0.9411765 0.9411765 0.9411765}
+\colorlet{tablerowcolor}{MyRed!10}
+\newcommand{\rowcol}{\rowcolor{tablerowcolor}}
+\usepackage{helvet}
+\begin{document}
+\colorbox{mygray}{
+\parbox[t]{\linewidth}{
+\vspace*{14pt} 
+\hfill \color{white} \textsc{\huge 
+Hgfjk
+ }
+\vspace*{14pt} 
+}}
+\large{\\ \\
+2019-06-06
+\hfill 
+\textbf{
+srhoadsian@gmail.com
+} \\
+}
+\large{
+\vspace*{14pt}
+\hfill \color{white} {\textbf{\large
+(917)-408-3131
+}}
+}
+\\
+\large{Dear \textbf{
+Fghjkl
+},}
+\\
+\\
+\large{
+I am writing to express my interest in your company's \textbf{
+Dfghjk
+} position.
+I like to write code sometimes
+ 
+    
+    Working as a 
+Dfghjk
+ at
+Fghjkl
+ would allow me to apply the skills and training that I have developed throughout my career. 
+My eyes hurt
+
+    
+    
+
+
+    
+    
+
+
+    
+    The chance to work as a 
+Dfghjk
+ at
+Fghjkl
+ is an intriguing one. From what I’ve researched about your firm, the work that I would be involved in is exactly what I have been seeking. I'm looking forward to corresponding further!
+}
+\\
+\\
+\large{Sincerely,}\\
+\\
+\large{\textbf{
+Hgfjk
+}}\\
+\\
+\small{\textbf{
+Data Scientist
+}}\\
+\small{\textbf{
+B.A., M.A (Columbia University)
+}}\\
+\end{document}

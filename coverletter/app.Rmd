@@ -1,0 +1,1453 @@
+---
+title: "Simple Coverletter"   #"Diversity Representation App"
+runtime: shiny
+output:
+  flexdashboard::flex_dashboard:
+    logo: logos/logo5d.png
+    theme: yeti
+    orientation: rows
+    vertical_layout: fill
+---
+
+```{r, context="setup", include=FALSE}
+# source("global.R")
+# source("garbage.R")
+library(shiny)
+library(flexdashboard)
+```
+
+<!-- ```{r} -->
+<!-- textfont_subplot <- list(color = 'grey', size=9) -->
+<!-- textfont_horizplot <- list(color = 'dark grey', size=9) -->
+<!-- margin_min <- list(l = 0, r = 0, b = 0, pad = 0) -->
+<!-- ``` -->
+
+<!-- ```{r eval=F, include=FALSE} -->
+<!-- vals_ <- list(analysis_unit = "Overall Company", -->
+<!--               # subunit = "All", -->
+<!--               subunit = NA, -->
+<!--               headcount_function = NA, -->
+<!--               supervisory_organization = NA, -->
+<!--               snapshot_dates = c("2015-12-31",  -->
+<!--                                  "2017-01-31", "2017-02-28", "2017-03-31", "2017-04-30", "2017-05-31",  -->
+<!--                                  "2017-06-30", "2017-07-31", "2017-08-31", "2017-09-30", "2018-03-31",  -->
+<!--                                  "2018-04-30", "2018-05-31", "2018-06-30", "2018-07-31", "2018-08-31",  -->
+<!--                                  "2018-09-30", "2018-10-31", "2018-11-30", "2018-12-31"), -->
+<!--               max_snapshot_date = NA, -->
+<!--               country = "US/PR") -->
+<!-- vals_$snapshot_dates <- as.Date(vals_$snapshot_dates) -->
+<!-- vals_$max_snapshot_date <- max(vals_$snapshot_dates) -->
+<!-- # vals <- list(analysis_unit = NA, -->
+<!-- #              subunit = NA, -->
+<!-- #              headcount_function = NA, -->
+<!-- #              supervisory_organization = NA, -->
+<!-- #              snapshot_dates = NA, -->
+<!-- #              max_snapshot_date = NA, -->
+<!-- #              country = NA) -->
+<!-- vals <- list(analysis_unit = "Overall Company", -->
+<!--              subunit = "All", -->
+<!--              headcount_function = NA, -->
+<!--              supervisory_organization = NA, -->
+<!--              snapshot_dates = c("2015-12-31",  -->
+<!--                                 "2017-01-31", "2017-02-28", "2017-03-31", "2017-04-30", "2017-05-31",  -->
+<!--                                 "2017-06-30", "2017-07-31", "2017-08-31", "2017-09-30", "2018-03-31",  -->
+<!--                                 "2018-04-30", "2018-05-31", "2018-06-30", "2018-07-31", "2018-08-31",  -->
+<!--                                 "2018-09-30", "2018-10-31", "2018-11-30", "2018-12-31"), -->
+<!--              max_snapshot_date = NA, -->
+<!--              country = "US/PR") -->
+<!-- vals$snapshot_dates <- as.Date(vals$snapshot_dates) -->
+<!-- vals$max_snapshot_date <- max(vals$snapshot_dates) -->
+<!-- input <- vals -->
+<!-- input$download_toggle <- T -->
+<!-- ``` -->
+
+```{r, context="data", include=FALSE}
+# load(file = "plot_data.RData")
+# load(file = "plot_data_borg_01282019NEW.RData")
+# load(file = "plot_data_borg_02012019NEW.RData")
+# plot_data_borg <- get(load(file="plot_data_borg_0418019NEW.RData"))
+# plot_data_borg <- get(load(file="plot_data_borg_04222019NEW.RData"))
+# plot_data_borg <- get(load(file="plot_data_borg_04222019NEW.rda"))
+# plot_data_borg <- get(load(file="plot_data_borg_04232019NEW.rda"))
+# plot_data_borg <- get(load(file="plot_data_borg_04232019NEW_liketrick.rda"))
+# plot_data_borg <- get(load(file="plot_data_borg_04232019NEW_liketrick_9pm.rda"))
+# plot_data_borg <- get(load(file="plot_data_borg_NOTRICK_0423_10pm"))
+
+# plot_data_borgOLD <- get(load(file = "plot_data_borg_02012019NEW.RData"))
+
+# age_annotation <- list(
+#   x = 0.5,
+#   y = 0.5,
+#   text = "Age",
+#   xref = "x",
+#   yref = "y",
+#   font = list(size = 24),
+#   showarrow = F,
+#   ax = 20,
+#   ay = -40
+# )
+
+vals <- reactiveValues(
+  yourname=NA,
+  position=NA,
+  company=NA
+)
+
+color_list <- c(
+  "Male" = "#e2c3f9",# "#bedaf0",
+  "Female" = "#c3f294", #"#fadbe0",
+  "female1" = "#76b101", #"#febdbd",
+  "female2" = "#f0c2c5",
+  "female3" = "#d26270",
+  "female4" = "#b62544",
+  "female5" = "#6c0822",
+  "POC" = "#fecc47",
+  "POC1" = "#fa990e",
+  "POC2" = "#d3b282",
+  "POC3" = "#e6b05b",
+  "POC4" = "#d07953",
+  "POC5" = "#8b3e28",
+  "Non-POC"="#a4dbe4",
+
+  "Under 25" = "#91ab6d",#"#acc9bd",
+  "25 - 29" = "#5fa55a",#"#6f988b",
+  "30 - 34" = "#01b4bc",#"#789fbb",
+  "35 - 39" = "#f6d51f",#"#e6790d",
+  "40 - 49" = "#fa8925",#"#b24201",
+  "50 and Above" = "#fa5457",#"#fac999",
+
+  # "Under 30" = "#6f988b",
+  # "30 - 39" = "#acc9bd",
+  # "40 - 49" = "#fac999",
+  # "50 - 54" = "#e6790d",
+  # "55 and Above" = "#b24201",
+
+
+  "L1" = "#1a7fa8",
+  "L2" = "#82c6d5",
+  "L3" = "#bceed4",
+  "L4" = "#f2e2a9",
+  "L5" = "#fffff3",
+  "LE" = "#fdffcc",
+  "LL" = "#fffa90"
+)
+
+# supervisory_organization <- plot_data$org_list
+# dates <- plot_data_borg$dates
+
+# analysis_units <- c("Overall Company", sort(names(plot_data_borg$borg_list)))
+
+# job_levels <- c("Exec/VP", "Professional", "Manager", "Director")
+# comp_grades <- c("L1", "L2", "L3", "L4", "L5", "LE", "LL")
+# # comp_grades <- c("Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7")
+# age_ranges <- c("Under 25", "25 - 29", "30 - 34", "35 - 39", "40 - 49", "50 and Above")
+# subraces <- c("White", "Black", "Two or More", "Hispanic", "Asain", "Nat. Am.", "Nat. Haw.")
+# races <- c("POC", "Non-POC")
+# genders <- c("Male", "Female")
+# countries <- c("US/PR", "Canada")
+```
+
+
+
+
+
+
+Sidebar {.sidebar}
+=======================================================================
+
+```{r, context="render", echo=FALSE}
+HTML("<br>")
+HTML("<center>")
+
+HTML("<h4>Choose Data Sources</h4>")
+HTML("<br>")
+
+# selectizeInput('country', "Select Country", choices=countries, width="100%", selected=countries[1])
+textInput("yourname", "Your name", placeholder="Sami Rhoads")
+
+HTML("<br>")
+
+textInput("company", "Company you want a job from", placeholder="Sami Corporation")
+
+HTML("<br>")
+
+textInput("position", "Job Position", placeholder="Cat Whisperer")
+
+# selectizeInput(
+#   'snapshot_dates',
+#   'Select Snapshot Dates', 
+#   choices = dates, 
+#   width = "100%", 
+#   # selected = c(rev(sort(dates))[1], rev(sort(dates))[2]),#unique(c(min(dates), max(dates))), 
+#   # selected = c(rev(sort(unique(dates)))[1:2], (sort(unique(dates)))[1:2]),#unique(c(min(dates), max(dates))), 
+#    selected = c("2018-03-31", "2019-03-31"),#unique(c(min(dates), max(dates))), 
+#  multiple = T
+# )
+
+# 
+# selectizeInput(
+#   'au', 
+#   "Select Analysis Unit", 
+#   choices = analysis_units,
+#   width = "100%", 
+#   selected="Overall Company"
+# )
+# 
+# conditionalPanel(
+#   condition = "input.au != 'Overall Company'",
+#   uiOutput('subunit')
+# )
+```
+
+```{r, context="server"}
+observeEvent(input$au, {
+  req(input$au)
+  vals$analysis_unit <- input$au
+})
+
+observeEvent(input$yourname, {
+  req(input$yourname)
+  vals$yourname <- input$yourname
+})
+
+observeEvent(input$company, {
+  req(input$company)
+  vals$company <- input$company
+})
+
+observeEvent(input$position, {
+  req(input$position)
+  vals$position <- input$position
+})
+
+# observeEvent(input$snapshot_dates, {
+#   req(input$snapshot_dates)
+#   vals$snapshot_dates <- input$snapshot_dates
+#   vals$max_snapshot_date <- max(input$snapshot_dates)
+# })
+
+# output$subunit = renderUI({
+#   selectizeInput('subunit', 'Subunit', plot_data_borg$borg_list[[vals$analysis_unit]], multiple = T, selected = "All")
+# })
+# 
+# output$subsubunit = renderUI({
+#   selectizeInput('subsubunit', 'Subunit 2', plot_data_borg$borg_list[[vals$analysis_unit]], multiple = T, selected = "All")
+# })
+# 
+# observeEvent(input$subunit, {
+#   req(input$subunit)
+#   
+#   subunits_without_all <- setdiff(input$subunit, "All")
+#   
+#   if ((length(subunits_without_all) >= 1) & ("All" %in% input$subunit)){
+#     updateSelectizeInput(
+#       session, 
+#       inputId = "subunit",
+#       label = "Subunit",
+#       choices = plot_data_borg$borg_list[[vals$analysis_unit]],
+#       selected = subunits_without_all
+#     )
+#   }
+#   
+# })
+# 
+# observeEvent(input$subunit, {
+#   req(input$subunit)
+#   vals$subunit <- input$subunit
+# })
+# 
+# observeEvent(input$headcount_function, {
+#   req(input$headcount_function)
+#   vals$headcount_function <- input$headcount_function
+# })
+# 
+# observeEvent(input$supervisory_organization, {
+#   req(input$supervisory_organization)
+#   vals$supervisory_organization <- input$supervisory_organization
+# })
+```
+
+```{r, context="render", echo=FALSE}
+HTML("<br>")
+# HTML("<br>")
+HTML("<h4>Generate PDF Report</h4>")
+
+conditionalPanel(
+  condition = "input.yourname != ''",
+  radioButtons("download_toggle", NULL, c("Current Data" = T, "Full Analysis Unit" = F),
+               selected=T, inline=T)
+)
+
+HTML("<br>")
+# radioButtons("plot_percent", label = "Report Plot Labels", c("Percents" = T, "Counts" = F), selected=T, inline=T)
+
+HTML("<br>")
+downloadLink('report', class="btn btn-default",label = "Download PDF Report")
+HTML("</center>")
+```
+
+```{r, context="server"}
+# observeEvent(input$plot_percent, {
+#   req(input$plot_percent)
+#   vals$plot_percent <- input$plot_percent
+# })
+
+output$report <- downloadHandler(
+  filename = "report.pdf",
+  content = function(file) {
+    withProgress(message = 'Compiling PDF coverletter', {
+      
+      combine <- F
+      
+      if (vals$yourname != "") {
+        if (input$download_toggle == T) {
+          # units <- vals$subunit
+          # units_without_all <- setdiff(vals$subunit, "All")
+          
+          # if (length(units_without_all) >= 1) {
+          #   units <- units_without_all
+          #   combine <- T
+        }
+        #   
+        # } else if (vals$subunit == "All") {
+        #   units <- plot_data_borg$borg_list[[vals$analysis_unit]]
+        # } else {
+        #   units <- plot_data_borg$borg_list[[vals$analysis_unit]]
+        # }
+        
+        # } else {
+        #   units <- "overall"
+      }
+      source("simple_coverletter_shiny.R")
+      simple_coverletter(
+        company=input$company,
+        yourname=input$yourname,
+        position=input$position,
+        paragraph1="I like to write code sometimes",
+        paragraph2="My eyes hurt",
+        filename_override=NULL,
+        file="report.Rnw"
+      )
+      
+      # write(pdf_func(analysis_unit = vals$analysis_unit, units=units, combine=combine), file="report.Rnw")
+      # knit2pdf(input = "report.Rnw", output = "report.tex", compiler = 'xelatex', 
+      #          envir = environment())#, clean = T)
+      file.copy('report.pdf', file, overwrite = TRUE)
+    })
+  }
+)
+```
+
+Diversity Statistics
+=======================================================================
+
+Row
+-----------------------------------------------------------------------
+
+### 
+<!-- Gender / POC Balance 2017 -->
+
+<!-- ```{r, context="render", echo=FALSE} -->
+<!-- dataTableOutput("futablegenderpoc") -->
+<!-- ``` -->
+
+<!-- ```{r, context="server"} -->
+<!-- output$futablegenderpoc <- renderDataTable({ -->
+<!--   # req(vals$analysis_unit) -->
+<!--   plot1_data <- create_plot1_data(plot_data_borg, vals) -->
+<!--   p1 <- filter(plot1_data$plot1_data_1, group %in% genders) %>% -->
+<!--     # mutate_if(., is.onlynumericchars, as.numeric) %>% -->
+<!--     DT::datatable() -->
+<!--   p1 -->
+<!--   plot1_data$plot1_data_1 -->
+<!--   # plot_data_borg$plot1_data$borg1 -->
+<!-- }) -->
+<!-- ``` -->
+
+
+
+
+
+
+
+
+
+
+
+```{r, context="render", echo=FALSE}
+# plotlyOutput("tablegenderpoc")
+```
+
+```{r 1 subplotgender, context="server"}
+# output$tablegenderpoc <- renderPlotly({
+#   req(vals$analysis_unit)
+#   
+#   plot1_data <- create_plot1_data(plot_data_borg, vals)
+#   # plot1_data <- create_plot1_data(plot_data_borg, vals_)
+#   
+#   p1 <- filter(plot1_data$plot1_data_1, group %in% genders) %>%
+#     # mutate_if(., is.onlynumericchars, as.numeric) %>%
+#     plot_ly(
+#       x=~pct, 
+#       y=~comp_grade,
+#       color=~group,
+#       type='bar',
+#       orientation='h',
+#       marker = list(line = list(color = 'black', width = 0.5)),
+#       colors=color_list, # c(color_list[["Female"]], color_list[["Male"]]),
+#       hoverinfo="text",
+#       hovertext = ~hovertext,
+#       text = ~pct_text,
+#       textposition = 'auto',
+#       textfont = textfont_subplot
+#     ) %>%
+#     layout(
+#       legend=list(orientation="h", traceorder="normal"),
+#       yaxis=list(autotick = FALSE,
+#                  ticks = "outside",
+#                  tick0 = 0,
+#                  dtick = 0.25,
+#                  ticklen = 5,
+#                  tickwidth = 0,
+#                  title=""
+#       ),
+#       xaxis = list(
+#         title="",
+#         tickfont = list(
+#           size = 10
+#         ),
+#         tickvals=c(0, 0.5, 1),
+#         ticktext=c("0%", "50%", "100%")
+#       ),
+#       barmode='stack'
+#     ) %>%
+#     config(displayModeBar=F) 
+#   
+#   p2 <- filter(plot1_data$plot1_data_2, group %in% races) %>%
+#     plot_ly(
+#       x=~pct, 
+#       y=~comp_grade,
+#       color=~group,
+#       type='bar',
+#       orientation='h',
+#       marker = list(line = list(color = 'black', width = 0.5)),
+#       colors=c(color_list[["POC"]], color_list[["Non-POC"]]),
+#       hoverinfo="text",
+#       hovertext = ~hovertext,
+#       text = ~pct_text,
+#       textposition = 'auto',
+#       textfont = list(color = 'grey', size=9)
+#     ) %>%
+#     layout(
+#       legend=list(orientation="h", traceorder="normal"),
+#       yaxis=list(
+#         # tickangle = -90,
+#         title=""
+#       ),
+#       xaxis = list(
+#         title="",
+#         tickfont = list(
+#           size = 10
+#         ),
+#         tickvals=c(0, 0.5, 1),
+#         ticktext=c("0%", "50%", "100%")
+#       ),
+#       barmode='stack'
+#     ) %>%
+#     config(displayModeBar=F) 
+#   
+#   subplot(p1, p2, shareY = T) %>% 
+#     layout(
+#       title = paste0("Gender / POC Balance ", "(", vals$max_snapshot_date, ")"),
+#       titlefont = list(size=14),
+#       margin = list(l = 0, r = 10, b = 0, pad = 0)
+#     )
+#   # subplot(p1, p2, shareY = T) %>% 
+#   #    layout(
+#   #      title = paste0("Gender / POC Balance ", "(", vals_$max_snapshot_date, ")"),
+#   #      titlefont = list(size=14),
+#   #      margin = list(l = 45, r = 20, b = 0, pad = 0)
+#   #    )
+#   
+# })
+```
+
+
+### 
+<!-- Age Representation (2017) -->
+
+```{r, context="render", echo=FALSE}
+# plotlyOutput("age1")
+```
+
+```{r 2 pieplotage, context="server"}
+# output$age1 <- renderPlotly({
+#   req(vals$analysis_unit)
+#   
+#   plot2_data <- create_plot2_data(plot_data_borg, vals)
+#   
+#   plot_ly(
+#     plot2_data, 
+#     labels = ~age_range, 
+#     values = ~N, 
+#     marker = list(colors = color_list[age_ranges], line = list(color = 'black', width = 0.5)),
+#     hoverinfo="text",
+#     hovertext = ~hovertext,
+#     textinfo = "text",
+#     text = ~pct_text,
+#     textposition = 'auto'
+#   ) %>%
+#     add_pie(hole = 0.4, pull = 0.1) %>%
+#     layout(
+#       xaxis=list(zeroline = FALSE,
+#                  showline = FALSE,
+#                  showticklabels = FALSE,
+#                  showgrid = FALSE),
+#       yaxis=list(zeroline = FALSE,
+#                  showline = FALSE,
+#                  showticklabels = FALSE,
+#                  showgrid = FALSE),
+#       showlegend = T, 
+#       legend = list(orientation="h", traceorder="normal"), 
+#       annotations=age_annotation,
+#       title = paste0("Age Representation ", "(", vals$max_snapshot_date, ")"),
+#       titlefont = list(size=14),
+#       margin = list(l = 0, r = 0, b = 0, pad = 0)
+#     ) %>%
+#     config(displayModeBar = F)
+# })
+```
+
+### 
+<!-- Distribution by Level (2017) -->
+
+```{r, context="render", echo=FALSE}
+# plotlyOutput("headcounts")
+```
+
+```{r 3 horizplotlevel, context="server"}
+# output$headcounts <- renderPlotly({
+#   req(vals$analysis_unit)
+#   
+#   plot3_data <- create_plot3_data(plot_data_borg, vals)# %>%
+#   # mutate(pct_text = pct_text %>% 
+#   # gsub("\\%", "", .) %>% 
+#   # as.numeric()/100,
+#   # pct_text = weights::rd(pct_text, 2)
+#   # )
+#   
+#   plot_ly(plot3_data) %>%
+#     add_bars(
+#       x=~pct,
+#       y=~group,
+#       width = 0.6,
+#       orientation="h",
+#       # text=~vals,
+#       color=~comp_grade,
+#       marker = list(line = list(color = 'black', width = 0.5)),
+#       colors=color_list[comp_grades],
+#       hoverinfo="text",
+#       hovertext = ~hovertext,
+#       text = ~pct_text, #%>% 
+#       # gsub("\\%", "", .) %>% 
+#       # as.numeric()/100, #%>%
+#       # unlist() %>%
+#       # as.factor(), #%>% 
+#       #  gsub("^0", "", .),#weights::rd(., digits=1),
+#       textposition = 'inside',
+#       textfont = textfont_horizplot
+#     ) %>%
+#     layout(
+#       title = paste0("Distribution by Level ", "(", vals$max_snapshot_date, ")"),
+#       titlefont = list(size=14),
+#       margin = list(l = 10, r = 0, b = 0, pad = 0),
+#       yaxis=list(title="",
+#                  tickangle=-90,
+#                  autotick = FALSE,
+#                  ticks = "outside",
+#                  tick0 = 0,
+#                  dtick = 0.25,
+#                  ticklen = 5,
+#                  tickwidth = 0,
+#                  # zerolinecolor = toRGB("white"),
+#                  hjust=-3),
+#       xaxis=list(
+#         title="",
+#         tickmode='array',
+#         tickvals=c(0, 0.2, 0.4, 0.6, 0.8, 1),
+#         ticktext=paste0(c(0, 0.2, 0.4, 0.6, 0.8, 1) * 100, "%")
+#       ),
+#       barmode='stack',
+#       legend=list(orientation="h")
+#     ) %>%
+#     config(displayModeBar=F)
+# })
+```
+
+Row
+-----------------------------------------------------------------------
+### 
+<!-- Female Comparison (2015-2017) -->
+
+```{r, context="render"}
+# plotlyOutput("femalecomp1")
+```
+
+```{r 4 barplotfemale, context="server"}
+# output$femalecomp1 <- renderPlotly({
+#   req(vals$analysis_unit)
+#   
+#   plot4_data <- create_plot4_data(plot_data_borg, vals)
+#   
+#   m_y <- max(plot4_data$pct)
+#   
+#   plot_ly(
+#     plot4_data,
+#     x=~comp_grade,#job_level,
+#     y=~pct,
+#     color=~snapshot_date,
+#     type='bar',
+#     marker = list(line = list(color = 'black', width = 0.5)), # color="#BAD6EB"
+#     colors=rev(as.vector(color_list[c("Female","female1")])), 
+#     hoverinfo="text",
+#     hovertext = ~hovertext,
+#     text = ~pct_text,
+#     textposition = 'outside',
+#     textfont = list(color = 'dark grey')
+#     # text = ~text
+#   ) %>%
+#     layout(
+#       title = paste0("Changes in Female Representation Over Time"),
+#       titlefont = list(size=14),
+#       bargroupgap=0.175,
+#       margin = list(l = 10, r = 0, b = 20, pad = 0),
+#       legend=list(orientation="h"),
+#       marker = list(line = list(color = 'rgb(8,48,107)')),
+#       xaxis=list(
+#         title=""
+#       ),
+#       yaxis=list(
+#         range = c(0, m_y + 0.09),
+#         title="",
+#         autotick = FALSE,
+#         ticks = "outside",
+#         tick0 = 0,
+#         dtick = 0.25,
+#         ticklen = 5,
+#         tickwidth = .5,
+#         tickmode='array',
+#         tickvals=c(0, 0.2, 0.4, 0.6, 0.8, 1),
+#         ticktext=paste0(c(0, 0.2, 0.4, 0.6, 0.8, 1) * 100, "%")
+#       )
+#     ) %>%
+#     # add_annotations(text = ~pct_text,
+#     #                 x = ~comp_grade,
+#     #                 y = ~pct,
+#     #                 xref = "x",
+#     #                 yref = "y",
+#     #                 font = list(family = 'Arial',
+#     #                             size = 14,
+#     #                             color = 'brown'),
+#     #                 showarrow = FALSE) %>%
+#     config(displayModeBar=F)
+# })
+```
+
+### 
+<!-- POC Comparison (2015-2017) -->
+
+```{r, context="render"}
+# plotlyOutput("poccomp1")
+```
+
+```{r 5 barplotpoc, context="server"}
+# output$poccomp1 <- renderPlotly({
+#   req(vals$analysis_unit)
+#   
+#   plot5_data <- create_plot5_data(plot_data_borg, vals)
+#   
+#   m_y <- max(plot5_data$pct)
+#   
+#   plot_ly(
+#     plot5_data,
+#     x=~comp_grade,#job_level,
+#     y=~pct,
+#     color=~snapshot_date,
+#     type='bar',
+#     marker = list(line = list(color = 'black', width = 0.5)),#color="#BAD6EB",#color=color_list[["POC"]], 
+#     colors=rev(as.vector(color_list[c("POC", "POC1")])),
+#     hoverinfo="text",
+#     hovertext = ~hovertext,
+#     text = ~pct_text,
+#     textposition = 'outside',
+#     textfont = list(color = 'dark grey')
+#   ) %>%
+#     layout(
+#       title = paste0("Changes in POC Representation Over Time"),
+#       titlefont = list(size=14),
+#       bargroupgap=0.175,
+#       margin = list(l = 10, r = 0, b = 20, pad = 0),
+#       paper_bgcolor='rgba(0,0,0,0)',
+#       plot_bgcolor='rgba(0,0,0,0)',
+#       legend=list(orientation="h"),
+#       xaxis=list(
+#         title=""
+#       ),
+#       yaxis=list(
+#         range = c(0, m_y + 0.09),
+#         title="",
+#         autotick = FALSE,
+#         ticks = "outside",
+#         tick0 = 0,
+#         dtick = 0.25,
+#         ticklen = 5,
+#         tickwidth = .5,
+#         tickmode='array',
+#         tickvals=c(0, 0.2, 0.4, 0.6, 0.8, 1),
+#         ticktext=paste0(c(0, 0.2, 0.4, 0.6, 0.8, 1) * 100, "%")
+#       )
+#     ) %>%
+#     config(displayModeBar=F)
+#   
+# })
+```
+
+### 
+<!-- Age Comparison (2015-2017) -->
+
+```{r, context="render"}
+# plotlyOutput("agecomp1")
+```
+
+```{r 6 horizplotage, context="server"}
+# output$agecomp1 <- renderPlotly({
+#   req(vals$analysis_unit)
+#   
+#   plot6_data <- create_plot6_data(plot_data_borg, vals) #%>%
+#   # mutate(pct_text = pct_text %>% 
+#   #          gsub("\\%", "", .) %>% 
+#   #          as.numeric()/100,
+#   #        pct_text = weights::rd(pct_text, 2)
+#   #        )
+#   
+#   if (length(vals$snapshot_dates) == 1) {
+#     plot_ly(plot6_data) %>%
+#       add_bars(
+#         x=~age_range,
+#         y=~pct,
+#         color=~age_range,
+#         marker = list(line = list(color = 'black', width = 0.5)),
+#         colors=color_list[age_ranges],
+#         hoverinfo="text",
+#         hovertext = ~hovertext,
+#         text = ~pct_text,
+#         textposition = 'outside',
+#         textfont = textfont_horizplot
+#       ) %>%
+#       layout(
+#         title = paste0("Age Distribution"),
+#         titlefont = list(size=14),        
+#         margin = margin_min,
+#         yaxis=list(
+#           title="",
+#           title="",
+#           autotick = FALSE,
+#           tickfont = list(size=10),
+#           tickangle=-45,
+#           ticks = "outside",
+#           tick0 = 0,
+#           dtick = 0.25,
+#           ticklen = 5,
+#           tickwidth = .1,
+#           showgrid=F,
+#           zeroline=F,
+#           showline=F,
+#           tickmode='array',
+#           tickvals=c(0, 0.2, 0.4, 0.6, 0.8, 1),
+#           ticktext=paste0(c(0, 0.2, 0.4, 0.6, 0.8, 1) * 100, "%")
+#         ),
+#         xaxis=list(
+#           title=""#,          
+#           # zeroline=F,
+#           # showline=F#,
+#           # showgrid=F
+#         ),
+#         barmode='stack',
+#         legend=list(orientation="h")
+#       ) %>%
+#       config(displayModeBar=F)
+#     
+#   } else {
+#     plot_ly(plot6_data) %>%
+#       add_bars(
+#         x=~pct,
+#         y=~snapshot_date %>% 
+#           gsub('^(.{4})(.*)$', '\\1--\\2', .) %>%
+#           gsub("---", " \n", .), #format(., format="%B %d\n%Y") %>% paste("\n", year(.), \n),
+#         # width = 1,
+#         orientation="h",
+#         color=~age_range,
+#         marker = list(line = list(color = 'black', width = 0.5)),
+#         colors=color_list[age_ranges],
+#         hoverinfo="text",
+#         hovertext = ~hovertext,
+#         text = ~pct_text,
+#         textposition = 'auto',
+#         textfont = textfont_horizplot
+#       ) %>%
+#       layout(
+#         title = paste0("Changes in Age Distribution Over Time"),
+#         titlefont = list(size=14),        
+#         margin = list(l = 0, r = 0, b = 0, pad = 0),
+#         yaxis=list(
+#           title="",
+#           autotick = FALSE,
+#           tickfont = list(size=10),
+#           # tickangle=-45,
+#           ticks = "outside",
+#           tick0 = 0,
+#           dtick = 0.25,
+#           ticklen = 5,
+#           zeroline=F,
+#           showline=F,
+#           showgrid=F,
+#           tickwidth = .1
+#           # tickmode='array',
+#           # tickvals=unique(plot6_data$snapshot_date),
+#           # ticktext=paste0(unique(plot6_data$snapshot_date))
+#         ),
+#         xaxis=list(
+#           title="",
+#           # zeroline=F,
+#           # showline=F,
+#           # showgrid=F,
+#           tickmode='array',
+#           tickvals=c(0, 0.2, 0.4, 0.6, 0.8, 1),
+#           ticktext=paste0(c(0, 0.2, 0.4, 0.6, 0.8, 1) * 100, "%")
+#         ),
+#         barmode='stack',
+#         legend=list(orientation="h")
+#       ) %>%
+#       config(displayModeBar=F)
+#     
+#   }
+#   
+# })
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Activity Statistics
+=======================================================================
+
+Row
+-----------------------------------------------------------------------
+
+### 
+<!-- Promotions (2017) -->
+
+```{r, context="render", echo=FALSE}
+# plotlyOutput("promotions1")
+```
+
+```{r 7 subplotpromos, context="server"}
+# output$promotions1 <- renderPlotly({
+#   req(vals$analysis_unit)
+#   
+#   plot7_data <- create_plot7_data(plot_data_borg, vals)
+#   
+#   if (length(vals$snapshot_dates)==1){
+#     start <- paste(year(date(vals$snapshot_dates)), month(date(vals$snapshot_dates)), "01", sep="-")
+#     end <- vals$snapshot_dates
+#     title <- paste0("Promotions <br>", "(", start, " to ", end, ")")
+#   } else {
+#     start <- min(date(vals$snapshot_dates))
+#     end <- max(date(vals$snapshot_dates))
+#     title <- paste0("Promotions <br>", "(", start, " to ", end, ")")
+#   }
+#   
+#   p1 <- filter(plot7_data, group %in% genders) %>%
+#     mutate(group = factor(group, levels=genders)) %>%
+#     plot_ly(
+#       x=~pct, 
+#       y=~comp_grade,
+#       color=~group,
+#       type='bar',
+#       orientation='h',
+#       marker = list(line = list(color = 'black', width = 0.5)),
+#       colors=color_list, # colors=c(color_list[["Female"]], color_list[["Male"]]),
+#       hoverinfo="text",
+#       hovertext = ~hovertext,
+#       text = ~pct_text,
+#       textposition = 'auto',
+#       textfont = textfont_subplot
+#     ) %>%
+#     layout(
+#       legend=list(orientation="h", traceorder="normal"),
+#       yaxis=list(
+#         title=""
+#       ),
+#       xaxis = list(
+#         title="",
+#         # tickangle=20,
+#         tickfont = list(
+#           size = 10
+#         ),
+#         tickvals=c(0, 0.5, 1),
+#         ticktext=c("0%", "50%", "100%")
+#       ),
+#       barmode='stack'
+#     ) %>%
+#     config(displayModeBar=F) 
+#   
+#   p2 <- filter(plot7_data, group %in% races) %>%
+#     mutate(group = factor(group, levels=races)) %>%
+#     plot_ly(
+#       x=~pct, 
+#       y=~comp_grade,
+#       color=~group,
+#       type='bar',
+#       orientation='h',
+#       marker = list(line = list(color = 'black', width = 0.5)),
+#       colors=color_list, #colors=c(color_list[["POC"]], color_list[["Non-POC"]]),
+#       hoverinfo="text",
+#       hovertext = ~hovertext,
+#       text = ~pct_text,
+#       textposition = 'auto',
+#       textfont = textfont_subplot
+#     ) %>%
+#     layout(
+#       legend=list(orientation="h", traceorder="normal"),
+#       yaxis=list(
+#         title=""
+#       ),
+#       xaxis = list(
+#         title="",
+#         # tickangle=20,
+#         tickfont = list(
+#           size = 10
+#         ),
+#         tickvals=c(0, 0.5, 1),
+#         ticktext=c("0%", "50%", "100%")
+#       ),
+#       barmode='stack'
+#     ) %>%
+#     config(displayModeBar=F) 
+#   
+#   subplot(p1, p2, shareY = T) %>% 
+#     layout(
+#       title = title,
+#       titlefont = list(size=14), 
+#       margin = list(l = 0, r = 20, b = 0, t = 50, pad = 0)
+#     )
+#   
+# })
+```
+
+### 
+<!-- Voluntary Turnover Excluding Retirement (2017) -->
+
+```{r, context="render", echo=FALSE}
+# plotlyOutput("turnover1")
+```
+
+```{r 8 subplotturnover, context="server"}
+# output$turnover1 <- renderPlotly({
+#   req(vals$analysis_unit)
+#   
+#   plot8_data <- create_plot8_data(plot_data_borg, vals)
+#   
+#   if (length(vals$snapshot_dates)==1){
+#     start <- paste(year(date(vals$snapshot_dates)), month(date(vals$snapshot_dates)), "01", sep="-")
+#     end <- vals$snapshot_dates
+#     title <- paste0("Voluntary Turnover Without Retirement <br>", "(", start, " to ", end, ")")
+#   } else {
+#     start <- min(date(vals$snapshot_dates))
+#     end <- max(date(vals$snapshot_dates))
+#     title <- paste0("Voluntary Turnover Without Retirement <br>", "(", start, " to ", end, ")")
+#   }
+#   
+#   p1 <- filter(plot8_data, group %in% genders) %>%
+#     mutate(group = factor(group, levels=genders)) %>%
+#     plot_ly(
+#       x=~pct, 
+#       y=~comp_grade,
+#       color=~group,
+#       type='bar',
+#       orientation='h',
+#       marker = list(line = list(color = 'black', width = 0.5)),
+#       colors=color_list,#colors=c(color_list[["Female"]], color_list[["Male"]]),
+#       hoverinfo="text",
+#       hovertext = ~hovertext,
+#       text = ~pct_text,
+#       textposition = 'auto',
+#       textfont = textfont_subplot
+#     ) %>%
+#     layout(
+#       legend=list(orientation="h", traceorder="normal"),
+#       yaxis=list(
+#         title=""
+#       ),
+#       xaxis = list(
+#         title="",
+#         # tickangle=20,
+#         tickfont = list(
+#           size = 10
+#         ),
+#         tickvals=c(0, 0.5, 1),
+#         ticktext=c("0%", "50%", "100%")
+#       ),
+#       barmode='stack'
+#     ) %>%
+#     config(displayModeBar=F) 
+#   
+#   p2 <- filter(plot8_data, group %in% races) %>%
+#     mutate(group = factor(group, levels=races)) %>%
+#     plot_ly(
+#       x=~pct, 
+#       y=~comp_grade,
+#       color=~group,
+#       type='bar',
+#       orientation='h',
+#       marker = list(line = list(color = 'black', width = 0.5)),
+#       colors=color_list, #colors=c(color_list[["POC"]], color_list[["Non-POC"]]),
+#       hoverinfo="text",
+#       hovertext = ~hovertext,
+#       text = ~pct_text,
+#       textposition = 'auto',
+#       textfont = textfont_subplot
+#     ) %>%
+#     layout(
+#       legend=list(orientation="h", traceorder="normal"),
+#       yaxis=list(
+#         title=""
+#       ),
+#       xaxis = list(
+#         title="",
+#         tickfont = list(
+#           size = 10
+#         ),
+#         tickvals=c(0, 0.5, 1),
+#         ticktext=c("0%", "50%", "100%")
+#       ),
+#       barmode='stack'
+#     ) %>%
+#     config(displayModeBar=F) 
+#   
+#   subplot(p1, p2, shareY = T) %>% 
+#     layout(
+#       title = title,
+#       titlefont = list(size=14), 
+#       margin = list(l = 0, r = 20, b = 0, t = 50, pad = 0)
+#     )
+#   
+# })
+```
+
+### 
+<!-- External Hires (2017) -->
+
+```{r, context="render", echo=FALSE}
+# plotlyOutput("hires1")
+```
+
+```{r 9 subplothires, context="server"}
+# output$hires1 <- renderPlotly({
+#   req(vals$analysis_unit)
+#   
+#   plot9_data <- create_plot9_data(plot_data_borg, vals)
+#   
+#   if (length(vals$snapshot_dates)==1){
+#     start <- paste(year(date(vals$snapshot_dates)), month(date(vals$snapshot_dates)), "01", sep="-")
+#     end <- vals$snapshot_dates
+#     title <- paste0("External Hires <br>", "(", start, " to ", end, ")")
+#   } else {
+#     start <- min(date(vals$snapshot_dates))
+#     end <- max(date(vals$snapshot_dates))
+#     title <- paste0("External Hires <br>", "(", start, " to ", end, ")")
+#   }
+#   
+#   p1 <- filter(plot9_data, group %in% genders) %>%
+#     mutate(group = factor(group, levels=genders)) %>%
+#     plot_ly(
+#       x=~pct, 
+#       y=~comp_grade,
+#       color=~group,
+#       type='bar',
+#       orientation='h',
+#       marker = list(line = list(color = 'black', width = 0.5)),
+#       colors=color_list,#colors=c(color_list[["Female"]], color_list[["Male"]]),
+#       hoverinfo="text",
+#       hovertext = ~hovertext,
+#       text = ~pct_text,
+#       textposition = 'auto',
+#       textfont = textfont_subplot
+#     ) %>%
+#     layout(
+#       legend=list(orientation="h", traceorder="normal"),
+#       yaxis=list(
+#         title=""
+#       ),
+#       xaxis = list(
+#         title="",
+#         # tickangle=20,
+#         tickfont = list(
+#           size = 10
+#         ),
+#         tickvals=c(0, 0.5, 1),
+#         ticktext=c("0%", "50%", "100%")
+#       ),
+#       barmode='stack'
+#     ) %>%
+#     config(displayModeBar=F) 
+#   
+#   p2 <- filter(plot9_data, group %in% races) %>%
+#     mutate(group = factor(group, levels=races)) %>%
+#     plot_ly(
+#       x=~pct, 
+#       y=~comp_grade,
+#       color=~group,
+#       type='bar',
+#       orientation='h',
+#       marker = list(line = list(color = 'black', width = 0.5)),
+#       colors=color_list, #colors=c(color_list[["POC"]], color_list[["Non-POC"]]),
+#       hoverinfo="text",
+#       hovertext = ~hovertext,
+#       text = ~pct_text,
+#       textposition = 'auto',
+#       textfont = textfont_subplot
+#     ) %>%
+#     layout(
+#       legend=list(orientation="h", traceorder="normal"),
+#       yaxis=list(
+#         title=""
+#       ),
+#       xaxis = list(
+#         title="",
+#         tickfont = list(
+#           size = 10
+#         ),
+#         tickvals=c(0, 0.5, 1),
+#         ticktext=c("0%", "50%", "100%")
+#       ),
+#       barmode='stack'
+#     ) %>%
+#     config(displayModeBar=F) 
+#   
+#   subplot(p1, p2, shareY = T) %>% 
+#     layout(
+#       title = title,
+#       titlefont = list(size=14), 
+#       margin = list(l = 0, r = 20, b = 0, t = 50, pad = 0)
+#     )
+#   
+# })
+```
+
+Row
+-----------------------------------------------------------------------
+
+### 
+<!-- % of Ages Promoted (2017) -->
+
+```{r, context="render", echo=FALSE}
+# plotlyOutput("promotions2")
+```
+
+```{r 10 pieplotagepromo, context="server"}
+# output$promotions2 <- renderPlotly({
+#   req(vals$analysis_unit)
+#   
+#   plot10_data <- create_plot10_data(plot_data_borg, vals)
+#   
+#   if (length(vals$snapshot_dates)==1){
+#     start <- paste(year(date(vals$snapshot_dates)), month(date(vals$snapshot_dates)), "01", sep="-")
+#     end <- vals$snapshot_dates
+#     title <- paste0("% of Ages Promoted <br>", "(", start, " to ", end, ")")
+#   } else {
+#     start <- min(date(vals$snapshot_dates))
+#     end <- max(date(vals$snapshot_dates))
+#     title <- paste0("% of Ages Promoted <br>", "(", start, " to ", end, ")")
+#   }  
+#   
+#   plot_ly(
+#     plot10_data, 
+#     labels = ~age_range, 
+#     values = ~N, 
+#     marker = list(colors = color_list[age_ranges], line = list(color = 'black', width = 0.5)),
+#     hoverinfo="text",
+#     hovertext = ~hovertext,
+#     textinfo = "text",
+#     text = ~pct_text,
+#     textposition = 'auto'
+#   ) %>%
+#     add_pie(hole = 0.4, pull = 0.1) %>%
+#     layout(
+#       xaxis=list(zeroline = FALSE,
+#                  showline = FALSE,
+#                  showticklabels = FALSE,
+#                  showgrid = FALSE
+#       ),
+#       yaxis=list(zeroline = FALSE,
+#                  showline = FALSE,
+#                  showticklabels = FALSE,
+#                  showgrid = FALSE
+#       ),
+#       showlegend = T, 
+#       legend = list(orientation="h"), 
+#       annotations=age_annotation,
+#       title = title,
+#       titlefont = list(size=14),
+#       margin = list(t = 50, l = 0, r = 0, b = 0, pad = 0)
+#     ) %>%
+#     config(displayModeBar = F)
+# })
+```
+
+### 
+<!-- Voluntary Terminations with Average Tenure (2017) -->
+
+```{r, context="render", echo=FALSE}
+# plotlyOutput("turnover2")
+```
+
+```{r 11 pieplotterm, context="server"}
+# output$turnover2 <- renderPlotly({
+#   req(vals$analysis_unit)
+#   
+#   plot11_data <- create_plot11_data(plot_data_borg, vals)
+#   
+#   if (length(vals$snapshot_dates)==1){
+#     start <- paste(year(date(vals$snapshot_dates)), month(date(vals$snapshot_dates)), "01", sep="-")
+#     end <- vals$snapshot_dates
+#     title <- paste0("Voluntary Terminations with Average <br>Tenure ", "(", start, " to ", end, ")")
+#   } else {
+#     start <- min(date(vals$snapshot_dates))
+#     end <- max(date(vals$snapshot_dates))
+#     title <- paste0("Voluntary Terminations with Average <br>Tenure ", "(", start, " to ", end, ")")
+#   }    
+#   
+#   plot_ly(
+#     plot11_data, 
+#     labels = ~age_range, 
+#     values = ~N, 
+#     marker = list(colors = color_list[age_ranges], line = list(color = 'black', width = 0.5)),
+#     hoverinfo="text",
+#     hovertext = ~hovertext,
+#     textinfo = "text",
+#     text = ~pct_text,
+#     textposition = 'auto'
+#   ) %>%
+#     add_pie(hole = 0.4, pull = 0.1) %>%
+#     layout(
+#       xaxis=list(zeroline = FALSE,
+#                  showline = FALSE,
+#                  showticklabels = FALSE,
+#                  showgrid = FALSE),
+#       yaxis=list(zeroline = FALSE,
+#                  showline = FALSE,
+#                  showticklabels = FALSE,
+#                  showgrid = FALSE),
+#       showlegend = T, 
+#       legend = list(orientation="h"), 
+#       annotations=age_annotation,
+#       title = title,
+#       titlefont = list(size=14),
+#       margin = list(t = 50, l = 0, r = 0, b = 0, pad = 0)
+#     ) %>%
+#     config(displayModeBar = F)
+# })
+```
+
+### 
+<!-- % External Hires (2017) -->
+
+```{r, context="render", echo=FALSE}
+# plotlyOutput("hires2")
+```
+
+```{r 12 pieplothires, context="server"}
+# output$hires2 <- renderPlotly({
+#   req(vals$analysis_unit)
+#   
+#   plot12_data <- create_plot12_data(plot_data_borg, vals)
+#   
+#   if (length(vals$snapshot_dates)==1){
+#     start <- paste(year(date(vals$snapshot_dates)), month(date(vals$snapshot_dates)), "01", sep="-")
+#     end <- vals$snapshot_dates
+#     title <- paste0("% External Hires <br>", "(", start, " to ", end, ")")
+#   } else {
+#     start <- min(date(vals$snapshot_dates))
+#     end <- max(date(vals$snapshot_dates))
+#     title <- paste0("% External Hires <br>", "(", start, " to ", end, ")")
+#   }    
+#   
+#   plot_ly(
+#     plot12_data, 
+#     labels = ~age_range, 
+#     values = ~N,  
+#     marker = list(colors = color_list[age_ranges], line = list(color = 'black', width = 0.5)),
+#     hoverinfo="text",
+#     hovertext = ~hovertext,
+#     textinfo = "text",
+#     text = ~pct_text,
+#     textposition = 'auto'
+#   ) %>%
+#     add_pie(hole = 0.4, pull = 0.1) %>%
+#     layout(
+#       xaxis=list(zeroline = FALSE,
+#                  showline = FALSE,
+#                  showticklabels = FALSE,
+#                  showgrid = FALSE),
+#       yaxis=list(zeroline = FALSE,
+#                  showline = FALSE,
+#                  showticklabels = FALSE,
+#                  showgrid = FALSE),
+#       showlegend = T, 
+#       legend = list(orientation="h"), 
+#       annotations=age_annotation,
+#       title = title,
+#       titlefont = list(size=14),      
+#       margin = list(t = 50, l = 0, r = 0, b = 0, pad = 0)
+#     ) %>%
+#     config(displayModeBar = F)
+# })
+```
+
+
+<style>
+.irs-from, .irs-to, .irs-min, .irs-max, .irs-single {
+visibility: hidden !important;
+}
+
+.shiny-output-error { visibility: hidden; }
+.shiny-output-error:before { visibility: hidden; }
+
+.section.sidebar {
+
+background-color: white;
+font-family: "Open-Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+
+.js-irs-0 .irs-bar {
+border-top-color: #2b506e;
+border-bottom-color: #2b506e;
+}
+
+.js-irs-0 .irs-bar-edge {
+border-color: #2b506e;
+}
+
+.js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {
+background: #2b506e;
+}
+
+.navbar-inverse {
+background-color: #2b506e;
+border-color: #440154;
+}
+
+<!-- .navbar-inverse .navbar-brand { -->
+<!-- color: #a3a9ac; -->
+<!-- } -->
+
+a:hover, a:focus {
+color: #440154;
+text-decoration: underline;
+}
+
+a {
+color: #2b506e;
+text-decoration: none;
+}
+
+<!-- .navbar-inverse .navbar-nav>li>a { -->
+<!-- color: #a3a9ac; -->
+<!-- } -->
+
+
+
+<!-- <style> -->
+
+<!-- .js-irs-0 .irs-bar { -->
+<!-- border-top-color: #2b506e; -->
+<!-- border-bottom-color: #2b506e; -->
+<!-- } -->
+
+<!-- .js-irs-0 .irs-bar-edge { -->
+<!-- border-color: #2b506e; -->
+<!-- } -->
+
+<!-- .js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar { -->
+<!-- background: #2b506e; -->
+<!-- } -->
+
+<!-- .navbar-inverse { -->
+<!-- background-color: #2b506e; -->
+<!-- border-color: #440154; -->
+<!-- } -->
+
+.js-irs-0 .irs-bar {
+border-top-color: #82c6d5;
+border-bottom-color: #82c6d5;
+}
+
+.js-irs-0 .irs-bar-edge {
+border-color: #82c6d5;
+}
+
+.js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {
+background: #82c6d5;
+}
+
+.navbar-inverse {
+background-color: #82c6d5;
+border-color: #440154;
+}
+
+<!-- .sidebar{ -->
+<!-- background: #e3e3e5 !important; -->
+<!-- } -->
+
+.navbar-nav li a:hover, .navbar-nav > .active > a {
+color: #fff !important;
+background-color:#8da4bc !important;
+background-image: none !important;
+}
+
+<!-- .blue-outline { -->
+<!--    background-color: #9ecff7; -->
+<!--    padding:1px; -->
+<!--    display: inline-block; -->
+<!-- } -->
+
+
+
+<!-- </style> -->
+
+</style>

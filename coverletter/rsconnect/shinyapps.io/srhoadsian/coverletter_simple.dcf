@@ -1,0 +1,12 @@
+name: coverletter_simple
+title: coverletter_simple
+username:
+account: srhoadsian
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 969985
+bundleId: 2241799
+url: https://srhoadsian.shinyapps.io/coverletter_simple/
+when: 1563390421.98539
+asMultiple: FALSE
+asStatic: FALSE

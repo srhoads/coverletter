@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1560035531986.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1459680560",
+    "id" : "A51E26C8",
+    "lastKnownWriteTime" : 1563390382,
+    "last_content_update" : 1563390382679,
+    "path" : "~/GitHub/portfolio/coverletter/coverletter/app.R",
+    "project_path" : "app.R",
+    "properties" : {
+        "cursorPosition" : "190,51",
+        "scrollLine" : "168",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
